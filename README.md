@@ -35,9 +35,11 @@ This peer-to-peer model, with its minimal, one-time configuration, is perhaps th
 + The IP address and the port number of one host e.g. 192.168.1.123:12345, or A:B
 + The IP address and the port number of the other host e.g. 123.1.168.192:54321, or C:D.
 
-Ports are 16-bit unsigned integers; many port numbers have specific meanings e.g. 443 is secure web service, 44818 is part of Ethernet/IP
+Ports are 16-bit unsigned integers; many port numbers have specific meanings e.g. 443 is secure web service, 44818 is part of Ethernet/IP.
 
-Those four numbers {A:B,C:D}, define a unique connection between two hosts, and are embedded in every TCP/IP transmission (packet).
+*N.B. for the purposes of this description, do not get lost in the meaning of the ports e.g. a web browser connection to a web server, or an Ethernet/IP connection; that is for the two hosts to decide; for the topic at hand it is enough to know only that some two-way dialog takes places over a "connection," and that connection is uniquely identified by these four parameters*
+
+Those four numbers {A:B,C:D}, define a unique, __re-usable__ connection between two hosts, and are embedded in every TCP/IP transmission (packet).
 
 Typically, one of the hosts, the client (e.g. A above) initiates a dialog by connecting from a port (B, picked at random) on itself to a Known Port (D) on the other host, called the server (C).  Since the destination IP is embedded in every packet, every gateway between A and C (and there could be dozens) will know the destination IP and will therefore know how to route the data.
 
@@ -50,8 +52,8 @@ Typically, one of the hosts, the client (e.g. A above) initiates a dialog by con
 Not every host (or LAN) needs to, nor should, be directly accessible from every other host on the planet.
 + For one thing, there are not enough IP addresses (~4 billion) in the 32-bit IPV4 address space.
 + Directly accessible means to be able to initiate a connection to a host on a non-local LAN through a gateway.
-+ E.g. the outside world, or accountants on a business LAN, do not need to initiate a connection to a PLC the production LAN.
-+ However, an HMI will may to send timestamped event data, to a host outside the production LAN.
++ E.g. the outside world, or accountants on a business LAN, do not need to initiate a connection to a PLC on the production LAN.
++ However, an HMI may to send timestamped event data, to a host outside the production LAN.
 + Or a SCADA system on the production LAN communicating with PLCs may need to send data outside the production LAN.
 
 ## What NAT does in a gateway
@@ -62,7 +64,7 @@ The why of NAT boils down to the need for a __one-way__ gateway controlling traf
 
 ## How NAT works
 
-### The problem 
+### The problem
 
 The one-way nature of such a special-purpose gateway breaks the first background rule (above):  "All hosts in an IP network addressing scheme are peers."  Breaking that rule breaks the networking process.  Because if a host on the private LAN initiates a connection to a host on the business LAN, the public LAN host will not be able to respond with data back through the one-way gateway to take part in the dialog necessary to transmit the data.  However, ...
 
@@ -113,7 +115,7 @@ N.B. there is no requirement that the break between ones and zeros occurs at an 
 
 ## Caveats II
 
-For the sake of conciseness and clarity, this discussion is very much a simplified view.  E.g. it
+For the sake of conciseness and clarity, this description is very much a simplified view.  E.g. it
 + Provides a definition of LAN that is functional, fuzzy, and lacking in rigorous detail.
 + Ignores any distinction between routers and gateways.
 + Blurs the lines between the Data Link, Network, and Transport layers
