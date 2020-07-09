@@ -98,7 +98,7 @@ An IP netmask also comprises 32 bits, and a netmask and an IP address define the
     ===================================
     11000000.10101000.00000001.00000000   ANDed result, = c0.a8.1.10 (hex) = 192.168.1.0 (decimal)
 
-The ANDed result, called the network, is often combined with the netmask to express a unique identifier for the network, in this cas
+The ANDed result, called the network, is often combined with the netmask to express a unique identifier for the network, in this case
 
     192.168.1.0/255.255.255.0
 
