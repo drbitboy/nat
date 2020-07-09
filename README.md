@@ -127,4 +127,4 @@ For the sake of conciseness and clarity, this discussion is very much a simplifi
 + Did not mention that .255 is the broadcast IP address
 
 
-BTC/drbitboy 2020-07-09, cf. post #4 of (this thread)[https://www.plctalk.net/qanda/showthread.php?t=125511].
+BTC/drbitboy 2020-07-09, cf. post #4 of [this thread](https://www.plctalk.net/qanda/showthread.php?t=125511).
