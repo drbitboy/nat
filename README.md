@@ -3,11 +3,9 @@
 
 ## Caveats I
 
-There are exceptions to all of this, e.g. see Caveats II below, but the basic scheme described above is how the 'net works.
+There are exceptions to all of this, e.g. see Caveats II below, but the basic scheme described here is how the 'net works.
 
 ## General background
-
-"There is no problem than cannot be solved in software with another layer of indirection."
 
 All hosts in an IP network addressing scheme are peers; that is, each host communicates, at the IP level, with all other hosts in the same way, which is via TCP/IP connection.
 
@@ -37,11 +35,20 @@ If the server is "listening" on that Known Port D, it accepts the connection and
 ## Why NAT exists
 
 Not every host (or LAN) needs to, nor should, be directly accessible from every other host on the planet.
-+ For one thing, there are not enough IP addresses (~4 billion) in the 32-bit IPV4 address space
-+ Directly accessible means to be able to initiate a connection to a host on a non-local LAN through a router
++ For one thing, there are not enough IP addresses (~4 billion) in the 32-bit IPV4 address space.
++ Directly accessible means to be able to initiate a connection to a host on a non-local LAN through a router.
 + E.g. the outside world, or even the people in accounting, do not need to initiate a connection to a PLC the production LAN.
 + However, the people in accounting will need to initiate a connection out to the internet e.g. to a remote headquarters.
-+ Or an HMI may need to backup its program, or send timestamped event data, to a host outside the production LAN
++ Or an HMI will need to send timestamped event data, to a host outside the production LAN.
++ Or a SCADA system on the production LAN communicating with PLCs will need to send data outside the production LAN.
+
+What this boils down to is the need for a special-purpose, __one-way__ router between the business and production LANs,
++ Wherehosts on the production LAN need to be able to directly access the business LAN and beyond,
++ But the production LAN hosts need to be invisible to direct access from the business LAN
+
+## How NAT works
+
+"There is no problem than cannot be solved in software with another layer of indirection."
 
 
 
