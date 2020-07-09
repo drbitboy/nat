@@ -123,10 +123,11 @@ For the sake of conciseness and clarity, this description is very much a simplif
 + Ignores other protocols involved e.g. ethernet, DHCP, DNS
 + For the most part either treats hosts as if they have only one network device, ...
 + Or blurs the line between a host and its network device(s)
-+ Although all gateways will have multiple network devices, not all hosts with multiple devices are gateways.
-+ Broadcast data can go inter-LAN in special circumstances
-+ IPV4, not IP, addresses are 32-bits
-+ Did not mention that .255 is the broadcast IP address
++ Ignores that although all gateways will have multiple network devices, not all hosts with multiple devices are gateways.
++ Ignores that broadcast data can go inter-LAN in special circumstances
++ Ignores that IPV4, not IP, addresses are 32-bits
++ Does not mention that .255 is the broadcast IP address.
++ Does not mention other cans or worms e.g. VPNs.
 
 
 BTC/drbitboy 2020-07-09, cf. post #4 of [this thread](https://www.plctalk.net/qanda/showthread.php?t=125511).
