@@ -39,7 +39,7 @@ Ports are 16-bit unsigned integers; many port numbers have specific meanings e.g
 
 *N.B. for the purposes of this description, do not get lost in the meaning of the ports e.g. a web browser connection to a web server, or an Ethernet/IP connection; that is for the two hosts to decide; for the topic at hand it is enough to know only that some two-way dialog takes places over a "connection," and that connection is uniquely identified by these four parameters*
 
-Those four numbers {A:B,C:D}, define a unique, __re-usable__ connection between two hosts, and are embedded in every TCP/IP transmission (packet).
+Those four parameters {A:B,C:D}, define a unique, __re-usable__ connection between two hosts, and are embedded in every TCP/IP transmission (packet).
 
 Typically, one of the hosts, the client (e.g. A above) initiates a dialog by connecting from a port (B, picked at random) on itself to a Known Port (D) on the other host, called the server (C).  Since the destination IP is embedded in every packet, every gateway between A and C (and there could be dozens) will know the destination IP and will therefore know how to route the data.
 
@@ -106,7 +106,7 @@ or sometimes simply
 
     192.168.1.0/24
 
-since the netmask almost always comprises some number of ones on the left followed by zeros until.
+since a netmask almost always comprises some quantity of ones on the left followed by zeros until the 32 bits are complete.
 
 So the range of valid IP addresses on this sample network is 192.168.1.0 through 192.268.1.255;
 
