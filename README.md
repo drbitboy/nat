@@ -1,11 +1,11 @@
-#NAT - Network Address Translation
+# NAT - Network Address Translation
 
 
-##Caveats I
+## Caveats I
 
 There are exceptions to all of this, e.g. see Caveats II below, but the basic scheme described above is how the 'net works.
 
-##General background
+## General background
 
 "There is no problem than cannot be solved in software with another layer of indirection."
 
@@ -24,7 +24,7 @@ A router is a special-purpose host, with multiple network devices on multiple LA
 + Broadcast data does not generally cross LAN boundaries
 
 
-##NAT-specific background
+## NAT-specific background
 
 A TCP/IP connection is used for dialog between two hosts, and is identified by four parameters:
 + The IP address and the port number of one host e.g. 192.168.1.123:12345, or A:B
@@ -34,7 +34,7 @@ Typically, one of the hosts, the client (e.g. A above) initiates a dialog by con
 
 If the server is "listening" on that Known Port D, it accepts the connection and dia
 
-##Why NAT exists
+## Why NAT exists
 
 Not every host (or LAN) needs to, nor should, be directly accessible from every other host on the planet.
 + For one thing, there are not enough IP addresses (~4 billion) in the 32-bit IPV4 address space
@@ -48,7 +48,7 @@ Not every host (or LAN) needs to, nor should, be directly accessible from every 
 
 
 
-##Caveats II
+## Caveats II
 
 This discussion is very much a simplified view e.g. it
 + Provides a definition of LAN that is functional, fuzzy, and not detailed
