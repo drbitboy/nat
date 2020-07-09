@@ -19,6 +19,7 @@ An alternate name for a LAN is a broadcast domain.  A LAN is a group of network 
 + It knows the netmask of the LAN it is connected to
 + Using the netmask, can determine if an IP address is local i.e. is on the same LAN
 + For all other, non-local, IP addresses, it knows the IP address of a device called a "gateway."
++ See Appendix I below for a description of netmask.
 
 ### A gateway is a special-purpose host, with multiple network devices on multiple LANs
 + Gateways pass data between LANs in a way that the peer-to-peer nature of networking is maintained
@@ -67,7 +68,7 @@ The one-way nature of such a special-purpose gateway breaks the first background
 
 ### "There is no problem than cannot be solved in software with another layer of indirection."
 
-Note that the public-LAN netwok device of the one-way gateway accessible to all hosts on the public LAN.  NAT gateways take advantage of this by modifying packets from and to hosts on the private LAN.  Per the example above, say a connection is initiated from [host:port] = [A:B] the private LAN to [host:port] = [C:D] on the public LAN; the unique connection {A:B,C:D} will be embedded in the packet data.  The NAT gateway replaces the [A:B] i.e. (the private LAN host:port) in the packet with [A':B'], where A' it the NAT gateway's IP address on the public LAN, and B' is a random port, and then sends the packet with modified in source address, to its destination [C:D]; at the same time, it caches all three host:port pairs, [A:B,C:D,A':B'], in a table.  __The modification from [A:B] to [A':B'] is called a Network Address Translation (NAT).__  The public destination host
+Note that the public-LAN network device of the one-way gateway accessible to all hosts on its public-side LAN.  NAT gateways take advantage of this by modifying packets from and to hosts on the private LAN.  Per the example above, say a connection is initiated from [host:port] = [A:B] the private LAN to [host:port] = [C:D] on the public LAN; the unique connection {A:B,C:D} will be embedded in the packet data.  The NAT gateway replaces the [A:B] i.e. (the private LAN host:port) in the packet with [A':B'], where A' it the NAT gateway's IP address on the public LAN, and B' is a random port, and then sends the packet with modified in source address, to its destination [C:D]; at the same time, it caches all three host:port pairs, [A:B,C:D,A':B'], in a table.  __The modification from [A:B] to [A':B'] is called a Network Address Translation (NAT).__  The public destination host
 + receives the packet,
 + sees [A':B'] as the source address;
 + and embeds source=[C:D] and destination=[A':B'] embedded in its response packet
@@ -125,3 +126,5 @@ For the sake of conciseness and clarity, this discussion is very much a simplifi
 + IPV4, not IP, addresses are 32-bits
 + Did not mention that .255 is the broadcast IP address
 
+
+BTC/drbitboy 2020-07-09, cf. post #4 of [https://www.plctalk.net/qanda/showthread.php?t=125511](this thread]).
