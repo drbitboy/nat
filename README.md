@@ -18,13 +18,15 @@ An alternate name for a LAN is a broadcast domain.  A LAN is a group of network 
 + It knows its own IP address
 + It knows the netmask of the LAN it is connected to
 + Using the netmask, can determine if an IP address is local i.e. is on the same LAN
-+ For all other, non-local, IP addresses, it knows the IP address of a router on the same LAN
++ For all other, non-local, IP addresses, it knows the IP address of a device called a "gateway."
 
-### A router is a special-purpose host, with multiple network devices on multiple LANs
-+ Routers pass data between LANs in a way that the peer-to-peer nature of networking is maintained
-+ Broadcast data does not generally cross LAN boundaries
+### A gateway is a special-purpose host, with multiple network devices on multiple LANs
++ Gateways pass data between LANs in a way that the peer-to-peer nature of networking is maintained
++ Broadcast data do not cross LAN boundaries
 
-This peer-to-peer model, with minimal configuration that can be automated, is perhaps the main reason for the Internet's success and ubiquity:  there is only one fundamental way to connect any host to any other host on the planer.
+## General background summary
+
+This peer-to-peer model, with its minimal, one-time configuration, is perhaps the main reason for the Internet's success and ubiquity:  there is only one fundamental way to connect any two hosts on the planet.
 
 ## NAT-specific background
 
@@ -32,28 +34,50 @@ This peer-to-peer model, with minimal configuration that can be automated, is pe
 + The IP address and the port number of one host e.g. 192.168.1.123:12345, or A:B
 + The IP address and the port number of the other host e.g. 123.1.168.192:54321, or C:D.
 
-Typically, one of the hosts, the client (e.g. A above) initiates a dialog by connecting from a random port (B) on itself to a Known Port (D) on the other host, called the server (C).
+Ports are 16-bit unsigned integers; many port numbers have specific meanings e.g. 443 is secure web service, 44818 is part of Ethernet/IP
 
-If the server is "listening" on that Known Port D, it accepts the connection and dia
+Those four numbers {A:B,C:D}, define a unique connection between two hosts, and are embedded in every TCP/IP transmission (packet).
+
+Typically, one of the hosts, the client (e.g. A above) initiates a dialog by connecting from a port (B, picked at random) on itself to a Known Port (D) on the other host, called the server (C).  Since the destination IP is embedded in every packet, every gateway between A and C (and there could be dozens) will know the destination IP and will therefore know how to route the data.
+
+### This is another key aspect of the Internet, that each gateway needs to know only two things:
++ Either that a packet is destined for one of the LANs to which the gateway is connected;
++ Or the next gateway to which to pass a packet if not destined for one of its LANs.
 
 ## Why NAT exists
 
 Not every host (or LAN) needs to, nor should, be directly accessible from every other host on the planet.
 + For one thing, there are not enough IP addresses (~4 billion) in the 32-bit IPV4 address space.
-+ Directly accessible means to be able to initiate a connection to a host on a non-local LAN through a router.
-+ E.g. the outside world, or even the people in accounting, do not need to initiate a connection to a PLC the production LAN.
-+ However, the people in accounting will need to initiate a connection out to the internet e.g. to a remote headquarters.
-+ Or an HMI will need to send timestamped event data, to a host outside the production LAN.
-+ Or a SCADA system on the production LAN communicating with PLCs will need to send data outside the production LAN.
++ Directly accessible means to be able to initiate a connection to a host on a non-local LAN through a gateway.
++ E.g. the outside world, or accountants on a business LAN, do not need to initiate a connection to a PLC the production LAN.
++ However, an HMI will may to send timestamped event data, to a host outside the production LAN.
++ Or a SCADA system on the production LAN communicating with PLCs may need to send data outside the production LAN.
 
-What this boils down to is the need for a special-purpose, __one-way__ router controlling traffic to and from production LANs
-+ Hosts on the production LAN need to be able to directly access the business LAN and beyond,
-+ But the production LAN hosts need to be invisible to direct access from the business LAN
+## What NAT does in a gateway
+
+The why of NAT boils down to the need for a __one-way__ gateway controlling traffic to and from private LANs
++ Hosts on the private (production) LAN need to be able to directly access the public (business) LAN and beyond,
++ But the private LAN hosts need to be invisible to direct access from the public LAN
 
 ## How NAT works
 
-"There is no problem than cannot be solved in software with another layer of indirection."
+### The problem 
 
+The one-way nature of such a special-purpose gateway breaks the first background rule (above):  "All hosts in an IP network addressing scheme are peers."  Breaking that rule breaks the networking process.  Because if a host on the private LAN initiates a connection to a host on the business LAN, the public LAN host will not be able to respond with data back through the one-way gateway to take part in the dialog necessary to transmit the data.  However, ...
+
+### "There is no problem than cannot be solved in software with another layer of indirection."
+
+Note that the public-LAN netwok device of the one-way gateway accessible to all hosts on the public LAN.  NAT gateways take advantage of this by modifying packets from and to hosts on the private LAN.  Per the example above, say a connection is initiated from [host:port] = [A:B] the private LAN to [host:port] = [C:D] on the public LAN; the unique connection {A:B,C:D} will be embedded in the packet data.  The NAT gateway replaces the [A:B] i.e. (the private LAN host:port) in the packet with [A':B'], where A' it the NAT gateway's IP address on the public LAN, and B' is a random port, and then sends the packet with modified in source address, to its destination [C:D]; at the same time, it caches all three host:port pairs, [A:B,C:D,A':B'], in a table.  __The modification from [A:B] to [A':B'] is called a Network Address Translation (NAT).__  The public destination host
++ receives the packet,
++ sees [A':B'] as the source address;
++ and embeds source=[C:D] and destination=[A':B'] embedded in its response packet
+
+Since [A':B'] is a public destination, that packet is delivered as far as the NAT gateway, which
++ checks the source [C:D] and destination [A':B'] against the table,
++ finds the cached entry
++ replaces [A':B'] with [A:B]
++ and delivers the packet to the original host on the private LAN.
++ the NAT gateway k
 
 
 
@@ -63,10 +87,12 @@ What this boils down to is the need for a special-purpose, __one-way__ router co
 
 This discussion is very much a simplified view e.g. it
 + Provides a definition of LAN that is functional, fuzzy, and not detailed
++ Ignores any distinction between routers and gateways.
 + Blurs the lines between the Data Link, Network, and Transport layers
 + Assumes TCP/IP, but other protocols (UDP, etc.) use the same principles.
 + Mostly excludes other protocols and e.g. ethernet, DHCP, DNS
 + For the most part either treats hosts as if they have only one network device, ...
 + Or blurs the line between a host and its network device(s)
-+ Although all routers will have multiple network devices, not all hosts with multiple devices are routers
++ Although all gateways will have multiple network devices, not all hosts with multiple devices are gateways.
++ Broadcast data can go inter-LAN in special circumstances
 
