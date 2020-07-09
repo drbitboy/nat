@@ -5,7 +5,7 @@
 
 There are exceptions to all of this, e.g. see Caveats II below, but the basic scheme described here is how the 'net works.
 
-## General background
+## General background - How IP works
 
 ### All hosts in an IP network addressing scheme are peers
 
@@ -25,7 +25,7 @@ An alternate name for a LAN is a broadcast domain.  A LAN is a group of network 
 + Gateways pass data between LANs in a way that the peer-to-peer nature of networking is maintained
 + Broadcast data do not cross LAN boundaries
 
-## General background summary
+## General background - How IP works, summary
 
 This peer-to-peer model, with its minimal, one-time configuration, is perhaps the main reason for the Internet's success and ubiquity:  there is only one fundamental way to connect any two hosts on the planet.
 
