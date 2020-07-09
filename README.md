@@ -106,11 +106,11 @@ or sometimes simply
 
     192.168.1.0/24
 
-since a netmask almost always comprises some quantity of ones on the left followed by zeros until the 32 bits are complete.
+since a netmask almost always comprises some count of ones (24 here) on the left followed by zeros until the 32 bits are complete.
 
-So the range of valid IP addresses on this sample network is 192.168.1.0 through 192.268.1.255;
+So the range of valid IP addresses on this sample network is 192.168.1.0 through 192.268.1.255.
 
-N.B. there is no requirement that the break between ones and zeros occurs at an octet boundary, e.g. 192.168.0.0/255.255.254.0 = 192.168.0.0/23 is a valid network with IP addresses ranging from 192.168.0.0 to 192.168.1.255; such netmasks are common.  Nor is there a logical requirement that all ones be contiguous, but that is probably never done.
+N.B. there is no requirement that the break between ones and zeros occurs at an octet boundary, e.g. 192.168.6.0/255.255.254.0 = 192.168.6.0/23 is a valid network with IP addresses ranging from 192.168.6.0 to 192.168.7.255; such netmasks are common.  Nor is there a logical requirement that all ones be contiguous, but that is probably never done.
 
 
 ## Caveats II
