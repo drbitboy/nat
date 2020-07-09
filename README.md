@@ -7,24 +7,28 @@ There are exceptions to all of this, e.g. see Caveats II below, but the basic sc
 
 ## General background
 
-All hosts in an IP network addressing scheme are peers; that is, each host communicates, at the IP level, with all other hosts in the same way, which is via TCP/IP connection.
+### All hosts in an IP network addressing scheme are peers
 
-Each host, specifically each network device (ethernet card) on a host, is a member of exactly one LAN (Local Area Network).  An alternate name for a LAN is a broadcast domain.  A LAN is a group of network devices that can communicate via broadcast; that is, one host on a LAN can commumicate with one target host on the same LAN by broadcasting data to that LAN with enough address information that the target host will be able to determine that the data are directed to the target host, while all other hosts on the LAN will know to ignore those data.
+That is, each host communicates, at the IP level, with all other hosts in the same way, which is via TCP/IP connection.
 
-One of the ways that each host is a peer is that it only needs to know a few things to communicate with any other host:
+### Each host, specifically each network device (ethernet card) on a host, is a member of exactly one LAN (Local Area Network).
+An alternate name for a LAN is a broadcast domain.  A LAN is a group of network devices that can communicate via broadcast; that is, one host on a LAN can commumicate with one target host on the same LAN by broadcasting data to that LAN with enough address information that the target host will be able to determine that the data are directed to the target host, while all other hosts on the LAN will know to ignore those data.
+
+### One of the ways that each host is a peer is that it only needs to know a few things to communicate with any other host:
 + It knows its own IP address
 + It knows the netmask of the LAN it is connected to
 + Using the netmask, can determine if an IP address is local i.e. is on the same LAN
 + For all other, non-local, IP addresses, it knows the IP address of a router on the same LAN
 
-A router is a special-purpose host, with multiple network devices on multiple LANs
+### A router is a special-purpose host, with multiple network devices on multiple LANs
 + Routers pass data between LANs in a way that the peer-to-peer nature of networking is maintained
 + Broadcast data does not generally cross LAN boundaries
 
+This peer-to-peer model, with minimal configuration that can be automated, is perhaps the main reason for the Internet's success and ubiquity:  there is only one fundamental way to connect any host to any other host on the planer.
 
 ## NAT-specific background
 
-A TCP/IP connection is used for dialog between two hosts, and is identified by four parameters:
+### A TCP/IP connection is used for dialog between two hosts, and is identified by four parameters:
 + The IP address and the port number of one host e.g. 192.168.1.123:12345, or A:B
 + The IP address and the port number of the other host e.g. 123.1.168.192:54321, or C:D.
 
@@ -42,8 +46,8 @@ Not every host (or LAN) needs to, nor should, be directly accessible from every 
 + Or an HMI will need to send timestamped event data, to a host outside the production LAN.
 + Or a SCADA system on the production LAN communicating with PLCs will need to send data outside the production LAN.
 
-What this boils down to is the need for a special-purpose, __one-way__ router between the business and production LANs,
-+ Wherehosts on the production LAN need to be able to directly access the business LAN and beyond,
+What this boils down to is the need for a special-purpose, __one-way__ router controlling traffic to and from production LANs
++ Hosts on the production LAN need to be able to directly access the business LAN and beyond,
 + But the production LAN hosts need to be invisible to direct access from the business LAN
 
 ## How NAT works
