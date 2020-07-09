@@ -80,19 +80,48 @@ Since destination [A':B'] is the public interface of the NAT gateway, that packe
 + replaces [A':B'] with [A:B],
 + and delivers the packet to the original host on the private LAN.
 
-The original host sees the original [A:B,C:D] pair and treats it as if all hosts were bi-directionally accessible.
+The original host sees the original [A:B,C:D] pair and is none the wiser, treating it as if both hosts were bi-directionally accessible.
+
+## Appendix I:  netmask
+
+As mentioned above, any host can immediately determine if an IP address is on its local LAN or on another, non-local LAN; the __netmask__ is an essential piece of this determination.
+
+IP addresses comprise 32 bits.  For display, simplicity of entry, and readability by humans, they are typically broken up into four 8-bit octets, expressed in decimal notation and separated by periods (full-stops):  e.g. 192.168.1.16.  The range for each octet is 0 to 255 decimal, 00 to ff hexadecimal.  So 192.168.1.16 could be expressed as c0.a8.1.10 (c0 hex = 192 decimal; a8=168; 1=1; 10=16), or even 11000000.10101000.00000001.00010000 in binary (base 2)
+
+An IP netmask also comprises 32 bits, and a netmask and an IP address define the address range for a single LAN.  Specifically, the 1 bits in the netmask indicate which bits in an IP address compose a unique signature for a LAN; the bit-wise AND result of [IP address,netmask] of each hosts on a LAN must be the same.  In the example above, 192.168.1.16, a typical netmask would be 255.255.255.0, or 11111111.11111111.11111111.00000000 in binary.  So the bit-wise AND result is
+
+    11000000.10101000.00000001.00010000   IP address
+    11111111.11111111.11111111.00000000   netmask
+    ===================================
+    11000000.10101000.00000001.00000000   ANDed result, = c0.a8.1.10 (hex) = 192.168.1.0 (decimal)
+
+The ANDed result, called the network, is often combined with the netmask to express a unique identifier for the network, in this cas
+
+    192.168.1.0/255.255.255.0
+
+or sometimes simply
+
+    192.168.1.0/24
+
+since the netmask almost always comprises some number of ones on the left followed by zeros until.
+
+So the range of valid IP addresses on this sample network is 192.168.1.0 through 192.268.1.255;
+
+N.B. there is no requirement that the break between ones and zeros occurs at an octet boundary, e.g. 192.168.0.0/255.255.254.0 = 192.168.0.0/23 is a valid network with IP addresses ranging from 192.168.0.0 to 192.168.1.255; such netmasks are common.  Nor is there a logical requirement that all ones be contiguous, but that is probably never done.
 
 
 ## Caveats II
 
-This discussion is very much a simplified view e.g. it
-+ Provides a definition of LAN that is functional, fuzzy, and not detailed
+For the sake of conciseness and clarity, this discussion is very much a simplified view.  E.g. it
++ Provides a definition of LAN that is functional, fuzzy, and lacking in rigorous detail.
 + Ignores any distinction between routers and gateways.
 + Blurs the lines between the Data Link, Network, and Transport layers
 + Assumes TCP/IP, but other protocols (UDP, etc.) use the same principles.
-+ Mostly excludes other protocols and e.g. ethernet, DHCP, DNS
++ Ignores other protocols involved e.g. ethernet, DHCP, DNS
 + For the most part either treats hosts as if they have only one network device, ...
 + Or blurs the line between a host and its network device(s)
 + Although all gateways will have multiple network devices, not all hosts with multiple devices are gateways.
 + Broadcast data can go inter-LAN in special circumstances
++ IPV4, not IP, addresses are 32-bits
++ Did not mention that .255 is the broadcast IP address
 
