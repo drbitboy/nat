@@ -72,15 +72,15 @@ Note that the public-LAN netwok device of the one-way gateway accessible to all 
 + sees [A':B'] as the source address;
 + and embeds source=[C:D] and destination=[A':B'] embedded in its response packet
 
-Since [A':B'] is a public destination, that packet is delivered as far as the NAT gateway, which
+So the public host has no idea the address was changed, and "believes" it is carrying on a dialog with the NAT gateway, while in reality the NAT gateway is acting as a proxy for the original host on the private LAN.
+
+Since destination [A':B'] is the public interface of the NAT gateway, that packet is delivered as far as the NAT gateway, which then
 + checks the source [C:D] and destination [A':B'] against the table,
-+ finds the cached entry
-+ replaces [A':B'] with [A:B]
++ finds the cached entry,
++ replaces [A':B'] with [A:B],
 + and delivers the packet to the original host on the private LAN.
-+ the NAT gateway k
 
-
-
+The original host sees the original [A:B,C:D] pair and treats it as if all hosts were bi-directionally accessible.
 
 
 ## Caveats II
