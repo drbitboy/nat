@@ -127,7 +127,7 @@ For the sake of conciseness and clarity, this description is very much a simplif
 + Ignores that broadcast data can go inter-LAN in special circumstances
 + Ignores that IPV4, not IP, addresses are 32-bits
 + Does not mention that .255 is the broadcast IP address.
-+ Does not mention other cans or worms e.g. VPNs.
++ Does not mention other cans of worms e.g. VPNs.
 
 
 BTC/drbitboy 2020-07-09, cf. post #4 of [this thread](https://www.plctalk.net/qanda/showthread.php?t=125511).
